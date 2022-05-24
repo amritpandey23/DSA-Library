@@ -1,3 +1,5 @@
+package string;
+
 public class RabinKarp {
     public static void main(String[] args) {
         String s = "Amritisagoodboy";
