@@ -13,7 +13,7 @@ import java.util.*;
 2 3 7
 
 */
-public class Dijkstra {
+public class DijkstraSPA {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int v, e;
