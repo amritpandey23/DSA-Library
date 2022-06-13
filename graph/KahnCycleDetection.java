@@ -13,38 +13,73 @@ PS:
 
 */
 
-public class DetectCycle {
+public class KahnCycleDetection {
 
     public static void main(String[] args) {
         // code here
-        int[][] edges = { { 0, 1 }, { 1, 2 }, { 2, 0 }, { 3, 4 } };
+        int[][] edges = { { 0, 1 }, { 1, 2 }, { 3, 4 } };
         int n = 5;
-        ArrayList<Integer>[] graph = new ArrayList[n];
+        List<Integer>[] graph = new LinkedList[n];
         for (int i = 0; i < n; i++) {
-            graph[i] = new ArrayList<>();
+            graph[i] = new LinkedList<>();
         }
         for (int[] e : edges) {
             graph[e[0]].add(e[1]);
         }
-        boolean[] visited = new boolean[n];
-        System.out.println(detectCycle(graph, -1, 0, visited));
+        System.out.println(kahnDetectCycle(graph));
     }
 
-    public static boolean detectCycle(ArrayList<Integer>[] graph, int parent, int src, boolean[] visited) {
-        if (parent != src && visited[src]) {
-            return true;
-        }
-        visited[src] = true;
-        for (int nbr : graph[src]) {
-            if (detectCycle(graph, src, nbr, visited)) {
-                return true;
+    /**
+     * Detect cycle in directed graph using topological sorting(Kahn's BFS algo)
+     * 
+     * @param graph: adjacency list of graph
+     * @return true if cycle exists, else false
+     */
+    public static boolean kahnDetectCycle(List<Integer>[] graph) {
+        int V = graph.length;
+        int[] indegrees = new int[V];
+        for (int vtx = 0; vtx < V; vtx++) {
+            for (int nbr : graph[vtx]) {
+                indegrees[nbr]++;
             }
         }
-        visited[src] = false;
-        return false;
+        return kahnDetectCycle(graph, indegrees);
     }
 
-    /* boilerplate code - not part of actual logic */
+    /**
+     * Detect cycle in directed graph using topological sorting(Kahn's BFS algo)
+     * 
+     * @param graph:     adjancency list of graph
+     * @param indegrees: indegrees of all vertices/nodes
+     * @return true if cycle exists, else false
+     */
+    public static boolean kahnDetectCycle(List<Integer>[] graph, int[] indegrees) {
+        int count, V;
+        count = 0;
+        V = graph.length;
+        ArrayDeque<Integer> Queue = new ArrayDeque<>();
+        for (int vtx = 0; vtx < V; vtx++) {
+            if (indegrees[vtx] == 0) {
+                Queue.offer(vtx);
+            }
+        }
+        if (Queue.isEmpty()) {
+            return true;
+        }
+        while (!Queue.isEmpty()) {
+            int currentNode = Queue.poll();
+            count++;
+            for (int nbr : graph[currentNode]) {
+                indegrees[nbr]--;
+                if (indegrees[nbr] == 0) {
+                    Queue.offer(nbr);
+                }
+            }
+        }
+        return count != V;
+    }
+
+    /** boilerplate code - not part of actual logic */
     private static FastReader sc = new FastReader();
 
     public static void swap(int[] A, int x, int y) {
@@ -111,9 +146,7 @@ public class DetectCycle {
             ArrayDeque<TreeNode> Q = new ArrayDeque<>();
             Q.offer(root);
             while (!Q.isEmpty()) {
-                int count = Q.size(); // important step
-                // do not use Q.size() in loop termination
-                // as Q.size() keep variying
+                int count = Q.size();
                 for (int i = 0; i < count; i++) {
                     TreeNode current = Q.poll();
                     System.out.print(current.val + " ");
