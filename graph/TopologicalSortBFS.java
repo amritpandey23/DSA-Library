@@ -13,7 +13,7 @@ PS:
 
 */
 
-public class TopologicalSort {
+public class TopologicalSortBFS {
 
     public static void main(String[] args) {
         // code here
