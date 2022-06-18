@@ -13,12 +13,12 @@ PS:
 
 */
 
-public class DetectCycleDirected {
+public class CycleInDirectedGraph {
 
     public static void main(String[] args) {
         // code here
-        int[][] edges = { { 0, 1 }, { 1, 2 }, {2, 0}, { 3, 4 } };
-        int n = 5;
+        int[][] edges = { { 0, 1 }, { 2, 1 }, { 2, 3 }, { 3, 4 }, { 4, 5 }, { 5, 3 } };
+        int n = 6;
         List<Integer>[] graph = new LinkedList[n];
         for (int i = 0; i < n; i++) {
             graph[i] = new LinkedList<>();
@@ -26,68 +26,16 @@ public class DetectCycleDirected {
         for (int[] e : edges) {
             graph[e[0]].add(e[1]);
         }
-        System.out.println(detectCycle(graph));
-        System.out.println(detectCycleBFS(graph));
+        System.out.println(hasCycle(graph));
     }
 
-    /**
-     * Detect cycle in directed graph using BFS
-     * 
-     * @param graph: Adjacency list of graph
-     * @return true if cycle exit, else false
-     */
-    public static boolean detectCycleBFS(List<Integer>[] graph) {
+    public static boolean hasCycle(List<Integer>[] graph) {
         int V = graph.length;
         boolean[] visited = new boolean[V];
+        boolean[] inStk = new boolean[V];
         for (int vtx = 0; vtx < V; vtx++) {
             if (!visited[vtx]) {
-                if (detectCycleBFS(graph, vtx, visited)) {
-                    return true;
-                }
-            }
-        } 
-        return false;
-    }
-
-    /**
-     * Detect cycle in directed graph using BFS
-     * 
-     * @param graph: Adjacency list of graph
-     * @param src: starting vertex/node
-     * @param visited: visited boolean map
-     * @return true if cycle exist, else false
-     */
-    public static boolean detectCycleBFS(List<Integer>[] graph, int src, boolean[] visited) {
-        ArrayDeque<Integer> nextQueue = new ArrayDeque<>();
-        nextQueue.offer(src);
-        int parent = -1;
-        while (!nextQueue.isEmpty()) {
-            int currentNode = nextQueue.poll();
-            if (visited[currentNode]) {
-                return true;
-            }
-            visited[currentNode] = true;
-            for (int nbr : graph[currentNode]) {
-                if (nbr != parent) {
-                    nextQueue.offer(nbr);
-                }
-            }
-            parent = currentNode;
-        }
-        return false;
-    }
-
-    /**
-     * Detect cycle in directed graph using DFS
-     * 
-     * @param graph: Adjacency list of graph
-     * @return true if cycle exit, else false
-     */
-    public static boolean detectCycle(List<Integer>[] graph) {
-        boolean[] visited = new boolean[graph.length];
-        for (int vtx = 0; vtx < visited.length; vtx++) {
-            if (!visited[vtx]) {
-                if (detectCycle(graph, -1, vtx, visited)) {
+                if (hasCycle(graph, vtx, visited, inStk)) {
                     return true;
                 }
             }
@@ -95,26 +43,21 @@ public class DetectCycleDirected {
         return false;
     }
 
-    /**
-     * Detect cycle in directed graph using DFS 
-     * 
-     * @param graph: Adjacency list of graph
-     * @param parent: parent vertex of starting vertex/node
-     * @param src: starting vertex/node
-     * @param visited: visited boolean map
-     * @return true if cycle exist, else false
-     */
-    public static boolean detectCycle(List<Integer>[] graph, int parent, int src, boolean[] visited) {
-        if (parent != src && visited[src]) {
+    public static boolean hasCycle(List<Integer>[] graph, int src, boolean[] visited, boolean[] inStk) {
+        if (inStk[src]) {
             return true;
         }
+        if (visited[src]) {
+            return false;
+        }
+        inStk[src] = true;
         visited[src] = true;
         for (int nbr : graph[src]) {
-            if (detectCycle(graph, src, nbr, visited)) {
+            if (hasCycle(graph, nbr, visited, inStk)) {
                 return true;
             }
         }
-        visited[src] = false;
+        inStk[src] = false;
         return false;
     }
 
