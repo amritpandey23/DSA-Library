@@ -2,3 +2,5 @@ _playground/
 *.class
 *.exe
 *.bin
+input.txt
+output.txt
