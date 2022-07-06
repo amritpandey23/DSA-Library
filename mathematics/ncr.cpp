@@ -11,7 +11,6 @@ int main() {
 }
 
 long ncr(int n, int r) {
-    int res = 0;
     if (r == 0) {
         return 1;
     }
