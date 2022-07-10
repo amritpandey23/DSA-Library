@@ -13,17 +13,13 @@ PS:
 
 */
 
-public class {
+public class  {
 
     public static void main(String[] args) {
         // code here
     }
 
-
-
-
-
-    /* boilerplate code - not part of actual logic */
+    /** boilerplate code - not part of actual logic */
     private static FastReader sc = new FastReader();
 
     public static void swap(int[] A, int x, int y) {
@@ -90,9 +86,7 @@ public class {
             ArrayDeque<TreeNode> Q = new ArrayDeque<>();
             Q.offer(root);
             while (!Q.isEmpty()) {
-                int count = Q.size(); // important step
-                // do not use Q.size() in loop termination
-                // as Q.size() keep variying
+                int count = Q.size();
                 for (int i = 0; i < count; i++) {
                     TreeNode current = Q.poll();
                     System.out.print(current.val + " ");
