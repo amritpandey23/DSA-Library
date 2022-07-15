@@ -26,7 +26,7 @@ class {
     static int M = 1000000007;
 
     static void print(Object c) {
-        System.out.println(c.toString());
+        System.out.print(c.toString());
     }
 
     static void print(int[] A) {
@@ -58,7 +58,7 @@ class {
         }
 
         @Override
-        public string toString() {
+        public String toString() {
             return "(" + this.x + ", " + this.y + ")";
         }
     }

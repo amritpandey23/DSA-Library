@@ -1,4 +1,4 @@
-package tree;
+package searching;
 
 import java.util.*;
 import java.io.*;
@@ -13,42 +13,34 @@ PS:
 
 */
 
-public class PrintNodesAtDistanceK {
+public class PeakElement {
+
     public static void main(String[] args) {
         // code here
+        int n = sc.nextInt();
+        int[] A = new int[n];
+        for (int i = 0; i < n; ++i) {
+            A[i] = sc.nextInt();
+        }
+        System.out.println(A[peakElement(A, n)]);
     }
 
-    static void printNodesAtDistanceK(TreeNode root, TreeNode node, int k) {
-        List<TreeNode> path = new ArrayList<>();
-        getPath(root, node, path);
-        printAtDepthK(root, k, node);
-        for (int i = 1; i < path.size() && k >= 0; ++i) {
-            printAtDepthK(root, k - i, path.get(i - 1));
+    public static int peakElement(int[] A, int n) {
+        int l, h;
+        l = 0;
+        h = n - 1;
+        while (l <= h) {
+            int m = l + (h - l) / 2;
+            if ((m == 0 || A[m] > A[m - 1]) && (m == n - 1 || A[m] > A[m + 1])) {
+                return m;
+            }
+            if (A[m - 1] > A[m]) {
+                h = m - 1;
+            } else {
+                l = m + 1;
+            }
         }
-    }
-
-    public static boolean getPath(TreeNode root, TreeNode node, List<TreeNode> list) {
-        if (root == node) {
-            list.add(node);
-            return true;
-        }
-        if (getPath(root.left, node, list) || getPath(root.right, node, list)) {
-            list.add(root);
-            return true;
-        }
-        return false;
-    }
-
-    public static void printAtDepthK(TreeNode root, int k, TreeNode block) {
-        if (k < 0 || root == block) {
-            return;
-        }
-        if (k == 0) {
-            System.out.print(root.val + " ");
-            return;
-        }
-        printAtDepthK(root.left, k - 1, block);
-        printAtDepthK(root.right, k - 1, block);
+        return -1;
     }
 
     /** boilerplate code - not part of actual logic */

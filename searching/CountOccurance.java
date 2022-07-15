@@ -1,4 +1,4 @@
-package ;
+package searching;
 
 import java.util.*;
 import java.io.*;
@@ -13,17 +13,72 @@ PS:
 
 */
 
-public class {
+public class CountOccurance {
 
     public static void main(String[] args) {
         // code here
+        int n = sc.nextInt();
+        int x = sc.nextInt();
+        int[] A = new int[n];
+        for (int i = 0; i < n; ++i) {
+            A[i] = sc.nextInt();
+        }
+        System.out.println(countOccurance(A, n, x));
+    }
+
+    public static int countOccurance(int[] A, int n, int x) {
+        int fo = firstOccurance(A, n, x);
+        int lo = lastOccurance(A, n, x);
+        if (fo == -1 || lo == -1) {
+            return 0;
+        }
+        return (lo - fo + 1);
+    }
+
+    public static int firstOccurance(int[] A, int n, int x) {
+        int l, h;
+        l = 0;
+        h = n - 1;
+        while (l <= h) {
+            int m = l + (h - l) / 2;
+            if (A[m] < x) {
+                l = m + 1;
+            } else if (A[m] > x) {
+                h = m - 1;
+            } else {
+                if (m == 0 || A[m - 1] != x) {
+                    return m;
+                } else {
+                    h = m - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static int lastOccurance(int[] A, int n, int x) {
+        int l, h;
+        l = 0;
+        h = n - 1;
+        while (l <= h) {
+            int m = l + (h - l) / 2;
+            if (A[m] < x) {
+                l = m + 1;
+            } else if (A[m] > x) {
+                h = m - 1;
+            } else {
+                if (m == n - 1 || A[m + 1] != x) {
+                    return m;
+                } else {
+                    l = m + 1;
+                }
+            }
+        }
+        return -1;
     }
 
 
-
-
-
-    /* boilerplate code - not part of actual logic */
+    /** boilerplate code - not part of actual logic */
     private static FastReader sc = new FastReader();
 
     public static void swap(int[] A, int x, int y) {
@@ -90,9 +145,7 @@ public class {
             ArrayDeque<TreeNode> Q = new ArrayDeque<>();
             Q.offer(root);
             while (!Q.isEmpty()) {
-                int count = Q.size(); // important step
-                // do not use Q.size() in loop termination
-                // as Q.size() keep variying
+                int count = Q.size(); 
                 for (int i = 0; i < count; i++) {
                     TreeNode current = Q.poll();
                     System.out.print(current.val + " ");

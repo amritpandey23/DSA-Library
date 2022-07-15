@@ -1,5 +1,32 @@
 package dynamic_programming;
 
+/* test case
+
+8
+4 10 6 5 8 11 2 20
+
+*/
+
+/*
+Longest Increasing subsequence: find out the subsequence that is longest increasing.
+
+Approach 1:
+For any element X in the array, if we can find element Y which is occuring before X
+and Y < X, then the length of longest increasing subsequence till Y + 1 will be the
+answer for longest increasing subsequence for X. We can do this for all Ys occuring
+before X in the array.
+
+LIS: | 1 | 2 | 2 | 2 | 3 | 4 | 1 | 5 |
+Arr: | 4 | 10| 6 | 5 | 8 |11 | 2 |20 |
+
+Approach 2:
+We can create a tail array to store elements in the array. Before inserting element
+to the tail array we are going to check if it's greater than last element, if it is
+then we are going to insert it into the array else we are going to replace the ceil
+value of this element in the array. This way the length of the array is going to
+increase for strictly increasing values.
+*/
+
 public class LongestIncreasingSubsequence {
     public static void main(String[] args) {
         int[] test = {8, 100, 150, 10, 12, 14, 110};

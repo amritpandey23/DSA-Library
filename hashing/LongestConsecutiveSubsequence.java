@@ -1,4 +1,4 @@
-package tree;
+package hashing;
 
 import java.util.*;
 import java.io.*;
@@ -13,43 +13,39 @@ PS:
 
 */
 
-public class PrintNodesAtDistanceK {
+public class LongestConsecutiveSubsequence {
+
     public static void main(String[] args) {
         // code here
+        int n = sc.nextInt();
+        int[] A = new int[n];
+        for (int i = 0; i < n; ++i) {
+            A[i] = sc.nextInt();
+        }
+        System.out.println(longestSubsequence(A));
     }
 
-    static void printNodesAtDistanceK(TreeNode root, TreeNode node, int k) {
-        List<TreeNode> path = new ArrayList<>();
-        getPath(root, node, path);
-        printAtDepthK(root, k, node);
-        for (int i = 1; i < path.size() && k >= 0; ++i) {
-            printAtDepthK(root, k - i, path.get(i - 1));
+    public static int longestSubsequence(int[] A) {
+        Set<Integer> set = new HashSet<>();
+        int Ans = 0;
+        for (int x : A) {
+            set.add(x);
         }
+        for (int x : set) {
+            if (!set.contains(x - 1)) {
+                int ctr = 0;
+                while (set.contains(x)) {
+                    x++;
+                    ctr++;
+                }
+                Ans = Math.max(Ans, ctr);
+            }
+        }
+        return Ans;
     }
 
-    public static boolean getPath(TreeNode root, TreeNode node, List<TreeNode> list) {
-        if (root == node) {
-            list.add(node);
-            return true;
-        }
-        if (getPath(root.left, node, list) || getPath(root.right, node, list)) {
-            list.add(root);
-            return true;
-        }
-        return false;
-    }
 
-    public static void printAtDepthK(TreeNode root, int k, TreeNode block) {
-        if (k < 0 || root == block) {
-            return;
-        }
-        if (k == 0) {
-            System.out.print(root.val + " ");
-            return;
-        }
-        printAtDepthK(root.left, k - 1, block);
-        printAtDepthK(root.right, k - 1, block);
-    }
+
 
     /** boilerplate code - not part of actual logic */
     private static FastReader sc = new FastReader();
@@ -118,7 +114,7 @@ public class PrintNodesAtDistanceK {
             ArrayDeque<TreeNode> Q = new ArrayDeque<>();
             Q.offer(root);
             while (!Q.isEmpty()) {
-                int count = Q.size();
+                int count = Q.size(); 
                 for (int i = 0; i < count; i++) {
                     TreeNode current = Q.poll();
                     System.out.print(current.val + " ");

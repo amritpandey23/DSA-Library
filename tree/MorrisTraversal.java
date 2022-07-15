@@ -13,42 +13,39 @@ PS:
 
 */
 
-public class PrintNodesAtDistanceK {
+public class MorrisTraversal {
     public static void main(String[] args) {
         // code here
+        TreeNode root = TreeNode.generateSampleTree();
+        morrisTraversal(root);
     }
 
-    static void printNodesAtDistanceK(TreeNode root, TreeNode node, int k) {
-        List<TreeNode> path = new ArrayList<>();
-        getPath(root, node, path);
-        printAtDepthK(root, k, node);
-        for (int i = 1; i < path.size() && k >= 0; ++i) {
-            printAtDepthK(root, k - i, path.get(i - 1));
-        }
-    }
-
-    public static boolean getPath(TreeNode root, TreeNode node, List<TreeNode> list) {
-        if (root == node) {
-            list.add(node);
-            return true;
-        }
-        if (getPath(root.left, node, list) || getPath(root.right, node, list)) {
-            list.add(root);
-            return true;
-        }
-        return false;
-    }
-
-    public static void printAtDepthK(TreeNode root, int k, TreeNode block) {
-        if (k < 0 || root == block) {
+    public static void morrisTraversal(TreeNode root) {
+        /* morris inorder traversal */
+        TreeNode curr, pre;
+        if (root == null) {
             return;
         }
-        if (k == 0) {
-            System.out.print(root.val + " ");
-            return;
+        curr = root;
+        while (curr != null) {
+            if (curr.left == null) {
+                System.out.print(curr.val + " ");
+                curr = curr.right;
+            } else {
+                pre = curr.left;
+                while (pre.right != null && pre.right != curr) {
+                    pre = pre.right;
+                }
+                if (pre.right == null) {
+                    pre.right = curr;
+                    curr = curr.left;
+                } else {
+                    pre.right = null;
+                    System.out.print(curr.val + " ");
+                    curr = curr.right;
+                }
+            }
         }
-        printAtDepthK(root.left, k - 1, block);
-        printAtDepthK(root.right, k - 1, block);
     }
 
     /** boilerplate code - not part of actual logic */

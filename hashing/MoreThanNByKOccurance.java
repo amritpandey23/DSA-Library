@@ -1,4 +1,4 @@
-package tree;
+package hashing;
 
 import java.util.*;
 import java.io.*;
@@ -9,47 +9,56 @@ PS:
 
 /* test case:
 
+gives wrong output to
+the following case:
 
+8
+2
+10 10 11 11 3 4 3 5
 
 */
 
-public class PrintNodesAtDistanceK {
+public class MoreThanNByKOccurance {
+
     public static void main(String[] args) {
         // code here
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] A = new int[n];
+        for (int i = 0; i < n; ++i) {
+            A[i] = sc.nextInt();
+        }
+        moreThanNByK(A, k);
     }
 
-    static void printNodesAtDistanceK(TreeNode root, TreeNode node, int k) {
-        List<TreeNode> path = new ArrayList<>();
-        getPath(root, node, path);
-        printAtDepthK(root, k, node);
-        for (int i = 1; i < path.size() && k >= 0; ++i) {
-            printAtDepthK(root, k - i, path.get(i - 1));
+    private static void moreThanNByK(int[] A, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int x : A) {
+            if (map.containsKey(x)) {
+                map.put(x, map.get(x) + 1);
+            } else if (map.size() < k) {
+                map.put(x, 1);
+            } else {
+                Set<Integer> keys = new HashSet<>();
+                for (Integer key : map.keySet()) {
+                    map.put(key, map.get(key) - 1);
+                    if (map.get(key) == 0) {
+                        keys.add(key);
+                    }
+                }
+                for (int key : keys) {
+                    map.remove(key);
+                }
+            }
+        }
+        for (int key : map.keySet()) {
+            System.out.print(key + " ");
         }
     }
 
-    public static boolean getPath(TreeNode root, TreeNode node, List<TreeNode> list) {
-        if (root == node) {
-            list.add(node);
-            return true;
-        }
-        if (getPath(root.left, node, list) || getPath(root.right, node, list)) {
-            list.add(root);
-            return true;
-        }
-        return false;
-    }
 
-    public static void printAtDepthK(TreeNode root, int k, TreeNode block) {
-        if (k < 0 || root == block) {
-            return;
-        }
-        if (k == 0) {
-            System.out.print(root.val + " ");
-            return;
-        }
-        printAtDepthK(root.left, k - 1, block);
-        printAtDepthK(root.right, k - 1, block);
-    }
+
+
 
     /** boilerplate code - not part of actual logic */
     private static FastReader sc = new FastReader();
@@ -118,7 +127,7 @@ public class PrintNodesAtDistanceK {
             ArrayDeque<TreeNode> Q = new ArrayDeque<>();
             Q.offer(root);
             while (!Q.isEmpty()) {
-                int count = Q.size();
+                int count = Q.size(); 
                 for (int i = 0; i < count; i++) {
                     TreeNode current = Q.poll();
                     System.out.print(current.val + " ");
