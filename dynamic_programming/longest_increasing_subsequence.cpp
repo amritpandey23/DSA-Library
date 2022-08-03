@@ -1,96 +1,76 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
-#define int 		long long int
-#define print(a)	for (auto x : a) cout << x << " "; cout << endl;
-#define mod			1e9 + 7
-#define endl		"\n"
 
-/* 
-author: ok-ape 
-date: 
-*/
+int lis(int[], int);
+int lisEfficient(int[], int);
+int ceilOf(int[], int, int);
 
-/* test cases
+int main() {
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 
-8
-4 10 6 5 8 11 2 20
-
-*/
-
-int longestIncreasingSubsequence(const int A[], int n) {
-    /* O(n^2) solution */
-    int lis[n] = {INT_MIN};
-    lis[0] = 1;
-    int len = 0;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < i; ++j) {
-            if (A[i] > A[j]) {
-                lis[i] = max(lis[i], 1 + lis[j]);
-            }
-            len = max(len, lis[i]);
-        }
-    }
-    return len;
-}
-
-int ceilSearch(const int A[], int n, int x) {
-    int low, high, mid, Ans;
-    low = 0;
-    high = n - 1;
-    while (low <= high) {
-        mid = (low + high) / 2;
-        if (A[mid] == x) {
-            return mid;
-        }
-        if (A[mid] < x) {
-            low = mid + 1;
-        } else {
-            Ans = mid;
-            high = mid - 1;
-        }
-    }
-    return Ans;
-}
-
-int longestIncreasingSubsequence2(const int A[], int n) {
-    int tail[n];
-    int len = 0;
-    for (int i = 0; i < n; ++i) {
-        if (len == 0 || A[i] > tail[len - 1]) {
-            tail[len] = A[i];
-            len++;
-        } else {
-            int ceilIdx = ceilSearch(tail, len, A[i]);
-            tail[ceilIdx] = A[i];
-        }
-    }
-    return len;
-}
-
-void solve() {
-	// code here
     int n;
     cin >> n;
     int A[n];
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; i++) {
         cin >> A[i];
     }
-    cout << longestIncreasingSubsequence(A, n) << endl;
-    cout << longestIncreasingSubsequence2(A, n) << endl;
+    // cout << lis(A, n) << endl;
+    cout << lisEfficient(A, n) << endl;
 }
 
-int32_t main() {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+int lis(int A[], int n) {
+    int LIS[n];
+    LIS[0] = 1;
+    for (int i = 1; i < n; i++) {
+        int maxIdx = -1;
+        for (int j = 0; j <= i - 1; j++) {
+            if (A[j] < A[i] && (maxIdx == -1 || A[j] > A[maxIdx])) {
+                maxIdx = j;
+            }
+        }
+        LIS[i] = maxIdx == -1 ? 1 : LIS[maxIdx] + 1;
+    }
+    int maxSize = 0;
+    for (int i = 0; i < n; i++) {
+        maxSize = max(maxSize, LIS[i]);
+    }
+    return maxSize;
+}
 
-	#ifndef ONLINE_JUDGE
-	freopen("input.txt",  "r",  stdin);
-	freopen("output.txt", "w", stdout);
-	freopen("error.txt", "w", stderr);
-	#endif
+int lisEfficient(int A[], int n) {
+    int tail[n] = {0};
+    int len = 1;
+    tail[0] = A[0];
+    for (int i = 1; i < n; i++) {
+        if (A[i] > tail[len - 1]) {
+            tail[len] = A[i];
+            len++;
+        } else {
+            int ceilIdx = ceilOf(tail, A[i], len); 
+            tail[ceilIdx] = A[i];
+        }
+    }
+    cout << endl;
+    return len;
+}
 
-	int t = 1;
-	// cin >> t;
-	while (t--) solve();
-
-	return 0;
+int ceilOf(int A[], int x, int n) {
+    int m, ans, l, h;
+    l = 0;
+    h = n - 1;
+    ans = -1;
+    while (l <= h) {
+        m = l + (h - l) / 2;
+        if (A[m] == x) {
+            return m;
+        }
+        if (A[m] < x) {
+            l = m + 1;
+        } else {
+            ans = m;
+            h = m - 1;
+        }
+        return ans;
+    }
 }
