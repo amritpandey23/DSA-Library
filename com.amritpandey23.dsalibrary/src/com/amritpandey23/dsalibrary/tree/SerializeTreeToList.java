@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A utility class for serializing a binary tree into a list representation.
+ * Serialization of binary tree to array/list.
+ * 
+ * This algorithm is useful in comparing contents of two binary trees.
  */
 public class SerializeTreeToList {
 

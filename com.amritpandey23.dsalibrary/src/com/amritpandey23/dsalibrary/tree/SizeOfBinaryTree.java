@@ -3,9 +3,9 @@ package com.amritpandey23.dsalibrary.tree;
 import java.util.ArrayDeque;
 
 /**
- * Utility class for calculating the size (number of nodes) of a binary tree.
+ * <b>Calculate total number of nodes i.e. size of a binary tree.</b>
  * 
- * <br />
+ * 
  * The word "size" is quite ambiguous as it can be mean many things in context
  * of a tree. It can very well mean the height or depth of the tree to a non-native
  * english speaker. Here we mean total number of nodes in the tree by "size" which
