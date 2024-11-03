@@ -3,13 +3,11 @@ package com.amritpandey23.dsalibrary.tests.tree;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import com.amritpandey23.dsalibrary.tests.utils.TreeTestUtils;
 import com.amritpandey23.dsalibrary.tree.BinarySearchTree;
-import com.amritpandey23.dsalibrary.tree.SerializeTreeToList;
 import com.amritpandey23.dsalibrary.tree.TreeNode;
 
 public class TestBinarySearchTree {
