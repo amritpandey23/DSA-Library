@@ -31,4 +31,13 @@ public class TestBinarySearchTree {
 		BinarySearchTree.insert(bst, 0);
 		assertTrue(BinarySearchTree.search(bst, 0));
 	}
+	
+	@Test
+	public void testDeleteInBST() {
+		TreeNode<Integer> bst = TreeTestUtils.generateBST();
+		
+		BinarySearchTree.delete(bst, 7);
+		assertFalse(BinarySearchTree.search(bst, 7));
+		assertTrue(BinarySearchTree.search(bst, 1));
+	}
 }

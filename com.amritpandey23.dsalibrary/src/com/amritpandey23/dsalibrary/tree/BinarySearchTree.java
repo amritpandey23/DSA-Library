@@ -47,4 +47,67 @@ public class BinarySearchTree {
 		}
 		return node;
 	}
+
+	/**
+	 * Deletes a specified value from the binary search tree.
+	 * 
+	 * @param node the root of the binary search tree
+	 * @param val  the value to delete
+	 * @return the root of the tree after deletion
+	 */
+	public static TreeNode<Integer> delete(TreeNode<Integer> node, Integer val) {
+		if (node == null) {
+			return null;
+		}
+
+		if (node.val > val) {
+			// if value is smaller, move to left sub tree
+			node.left = delete(node.left, val);
+		} else if (node.val < val) {
+			// if value is larger, move to right sub tree
+			node.right = delete(node.right, val);
+		} else {
+			// Node to be deleted found
+			if (node.right == null) {
+				return node.left;
+			} else if (node.left == null) {
+				return node.right;
+			}
+
+			// If the node already has two children then we need to get the
+			// a node which is just bigger than current node but smaller then
+			// other nodes in the right side of the tree.
+			
+			// Node with two children: get the inorder successor (smallest in the right
+			// subtree)
+			TreeNode<Integer> successorNode = getSuccessor(node);
+			node.val = successorNode.val;
+
+			// Delete the successor
+			node.right = delete(node.right, successorNode.val);
+		}
+
+		return node;
+	}
+
+	/**
+	 * Finds the inorder successor of a given node in the binary search tree. The
+	 * inorder successor is the smallest node in the right subtree.
+	 *
+	 * @param node the node for which the successor is to be found
+	 * @return the inorder successor node
+	 */
+	private static TreeNode<Integer> getSuccessor(TreeNode<Integer> node) {
+		if (node == null) {
+			return null;
+		}
+
+		TreeNode<Integer> currentNode = node.right;
+		while (currentNode != null && currentNode.left != null) {
+			currentNode = currentNode.left;
+		}
+
+		return currentNode;
+	}
+
 }
