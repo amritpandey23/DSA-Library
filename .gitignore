@@ -5,3 +5,6 @@ _playground/
 input.txt
 output.txt
 error.txt
+/.metadata/
+**/bin/
+**/target/
