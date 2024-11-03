@@ -40,4 +40,11 @@ public class TestBinarySearchTree {
 		assertFalse(BinarySearchTree.search(bst, 7));
 		assertTrue(BinarySearchTree.search(bst, 1));
 	}
+	
+	@Test
+	public void testValidateBST() {
+		TreeNode<Integer> bst = TreeTestUtils.generateBST();
+		
+		assertTrue(BinarySearchTree.validate(bst));
+	}
 }

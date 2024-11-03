@@ -77,7 +77,7 @@ public class BinarySearchTree {
 			// If the node already has two children then we need to get the
 			// a node which is just bigger than current node but smaller then
 			// other nodes in the right side of the tree.
-			
+
 			// Node with two children: get the inorder successor (smallest in the right
 			// subtree)
 			TreeNode<Integer> successorNode = getSuccessor(node);
@@ -108,6 +108,41 @@ public class BinarySearchTree {
 		}
 
 		return currentNode;
+	}
+
+	/**
+	 * Validates if the given binary tree is a binary search tree (BST).
+	 *
+	 * @param node the root of the binary tree to validate
+	 * @return {@code true} if the tree is a valid binary search tree, {@code false}
+	 *         otherwise
+	 */
+	public static boolean validate(TreeNode<Integer> node) {
+		return validate(node, null, null);
+	}
+
+	/**
+	 * Helper method to validate the binary search tree by maintaining a range for
+	 * each node.
+	 *
+	 * @param node the current node to validate
+	 * @param min  the minimum allowable value for the current node (null if no
+	 *             minimum)
+	 * @param max  the maximum allowable value for the current node (null if no
+	 *             maximum)
+	 * @return {@code true} if the subtree rooted at the current node is a valid
+	 *         BST, {@code false} otherwise
+	 */
+	private static boolean validate(TreeNode<Integer> node, Integer min, Integer max) {
+		if (node == null) {
+			return true;
+		}
+
+		if ((min != null && node.val <= min) || (max != null && node.val >= max)) {
+			return false;
+		}
+
+		return validate(node.left, min, node.val) && validate(node.right, node.val, max);
 	}
 
 }
