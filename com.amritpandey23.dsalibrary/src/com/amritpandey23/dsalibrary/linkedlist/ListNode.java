@@ -6,7 +6,7 @@ package com.amritpandey23.dsalibrary.linkedlist;
  *
  * @param <T> the type of the value stored in the list node
  */
-public class ListNode<T> {
+public class ListNode<T> implements Node<T> {
 
 	/**
 	 * The value stored in this list node.
@@ -39,4 +39,30 @@ public class ListNode<T> {
 		this.val = val;
 		this.next = next;
 	}
+
+	@Override
+	public T getValue() {
+		return this.val;
+	}
+
+	@Override
+	public Node<T> getNext() {
+		return this.next;
+	}
+
+	@Override
+	public Node<T> getPrevious() {
+		return null;
+	}
+
+	@Override
+	public void setNext(Node<T> next) {
+		this.next = (ListNode<T>) next;
+	}
+
+	@Override
+	public void setPrevious(Node<T> previous) {
+		
+	}
+
 }
